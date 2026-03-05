@@ -1,0 +1,8 @@
+*.user
+*.suo
+*.cache
+*.log
+bin/
+obj/
+.vs/
+appsettings.*.json

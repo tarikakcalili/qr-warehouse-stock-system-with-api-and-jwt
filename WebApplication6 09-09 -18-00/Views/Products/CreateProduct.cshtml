@@ -1,0 +1,16 @@
+﻿@model MegaQr.Web.Models.DTOs.CreateProductDto
+
+<h2>Ürün Kaydet</h2>
+
+<form asp-action="CreateProduct" method="post">
+
+    <div class="mb-3">
+        <label>Ürün İsmi</label>
+        <input asp-for="ProductName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Ürün Tipi</label>
+        <input asp-for="Type" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>

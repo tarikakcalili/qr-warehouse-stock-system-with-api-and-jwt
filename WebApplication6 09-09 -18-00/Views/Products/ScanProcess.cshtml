@@ -1,0 +1,77 @@
+﻿@model MegaQr.Web.Models.ViewModels.ScanProcessViewModel
+
+<h2>Product Details</h2>
+
+<table class="table">
+    <tr>
+        <th>Product Id</th>
+        <td>@Model.Product.ProductId</td>
+    </tr>
+    <tr>
+        <th>Product Name</th>
+        <td>@Model.Product.ProductName</td>
+    </tr>
+    <tr>
+        <th>Type</th>
+        <td>@Model.Product.Type</td>
+    </tr>
+    <tr>
+        <th>Date</th>
+        <td>@Model.Product.Date.ToString("yyyy-MM-dd")</td>
+    </tr>
+    <tr>
+        <th>Section Id</th>
+        <td>@Model.Product.SectionId</td>
+    </tr>
+    <tr>
+        <th>Section Name</th>
+        <td>@Model.Product.SectionName</td>
+    </tr>
+    <tr>
+        <th>To Store Register</th>
+        <td>
+            @(Model.Product.ToStoreRegister?.ToString("yyyy-MM-dd HH:mm") ?? "-")
+        </td>
+
+    </tr>
+    <tr>
+        <th>From Store Exit</th>
+        <td>@(Model.Product.FromStoreExit?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+    </tr>
+</table>
+
+<div id="storeActions">
+    <button id="btnAddProduct" type="button" onclick="showAddSection()" class="btn btn-primary"
+            @(Model.Product.ToStoreRegister != null && Model.Product.FromStoreExit == null ? "disabled" : "")>
+        Ürün Ekle
+    </button>
+
+    <form method="post" asp-action="RemoveFromStore" asp-controller="Store" style="display:inline;">
+        <input type="hidden" name="productId" value="@Model.Product.ProductId" />
+        <button type="submit" class="btn btn-primary"
+                @(Model.Product.FromStoreExit == null ? "" : "disabled")>
+            Ürün Çıkar
+        </button>
+    </form>
+
+    <div id="addSectionArea" style="margin-top:10px; display:none;">
+        <form method="post" asp-action="AddToStore" asp-controller="Store">
+            <input type="hidden" name="productId" value="@Model.Product.ProductId" />
+            <label for="sectionSelect">Bölüm seç:</label>
+            <select id="sectionSelect" name="sectionId" required>
+                <option value="">-- Seçiniz --</option>
+                @foreach (var sec in Model.Sections)
+                {
+                    <option value="@sec.SectionId">@sec.SectionName</option>
+                }
+            </select>
+            <button type="submit">Bitir</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function showAddSection() {
+        document.getElementById('addSectionArea').style.display = 'block';
+    }
+</script>

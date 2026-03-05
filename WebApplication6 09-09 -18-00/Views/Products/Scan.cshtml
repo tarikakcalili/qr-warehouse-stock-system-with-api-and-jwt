@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "QR Kod Okuyucu";
+}
+
+<h2>QR Kod Okuyucu</h2>
+
+<form asp-controller="Products" asp-action="ScanProcess" method="post" id="scanForm">
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="idInput" name="productId" />
+</form>
+
+<button id="startBtn" class="btn btn-primary">QR Kodu Oku</button>
+
+<p>QR İçeriği: <span id="result"></span></p>
+<p id="error" style="color: red;"></p>
+
+<div id="reader" style="position: relative; width: 300px; height: 300px;">
+    <div id="qrbox-overlay"></div>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script>
+    document.getElementById("startBtn").addEventListener("click", function () {
+        const qr = new Html5Qrcode("reader");
+        const config = { fps: 10, qrbox: 350 };
+
+        const timeoutDuration = 15000;
+        let timeoutHandle = null;
+        let isScanned = false;
+
+        qr.start(
+            { facingMode: "environment" },
+            config,
+            qrCodeMessage => {
+                isScanned = true;
+                clearTimeout(timeoutHandle);
+
+                const idValue = parseInt(qrCodeMessage.trim(), 10);
+
+                if (isNaN(idValue) || idValue <= 0) {
+                    document.getElementById("error").innerText =
+                        "Geçersiz ID formatı. QR kod sadece pozitif sayı içermelidir.";
+                    qr.stop();
+                    return;
+                }
+
+                document.getElementById("result").innerText = idValue;
+                document.getElementById("idInput").value = idValue;
+                document.getElementById("error").innerText = "";
+
+                qr.stop();
+                document.getElementById("scanForm").submit();
+            },
+            errorMessage => {
+                console.debug("QR okuma hatası: ", errorMessage);
+            }
+        ).then(() => {
+            timeoutHandle = setTimeout(() => {
+                if (!isScanned) {
+                    qr.stop();
+                    document.getElementById("error").innerText =
+                        "QR kod 15 saniye içinde okunamadı. Lütfen tekrar deneyin.";
+                }
+            }, timeoutDuration);
+        }).catch(err => {
+            console.error("QR başlatılamadı: ", err);
+            document.getElementById("error").innerText = "QR başlatılamadı: " + err;
+        });
+    });
+</script>

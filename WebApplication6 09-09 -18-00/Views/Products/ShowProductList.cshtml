@@ -1,0 +1,25 @@
+﻿@model List<MegaQr.Web.Models.DTOs.ProductDto>
+
+<h2>Ürün Listesi</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Ürün Adı</th>
+            <th>Tür</th>
+            <th>Tarih</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductId</td>
+                <td>@product.ProductName</td>
+                <td>@product.Type</td>
+                <td>@product.Date.ToString("dd.MM.yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>

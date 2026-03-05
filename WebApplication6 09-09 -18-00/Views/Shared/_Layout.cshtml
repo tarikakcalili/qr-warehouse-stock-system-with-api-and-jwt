@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ben</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Ben.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo">
+            -QR
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li>
+                    <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                </li>
+                <li>
+                    <a href="#">İşlemler</a>
+                    <ul>
+                        <li>
+                            <a asp-controller="Products" asp-action="CreateProduct">Ürün Kaydet</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Products" asp-action="ShowProductList">Ürün Kayıtları</a>
+                        </li>
+                        <li>
+                            <a asp-controller="QR" asp-action="Index">QR Yap</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Products" asp-action="Scan">QR Oku</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Products" asp-action="ScanManuel">Manuel Oku</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Store" asp-action="ShowStoreList">Depo Kayıtları</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Section" asp-action="CreateSection">Bölüm Ekle</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a asp-controller="Account" asp-action="Register">Kullanıcı Ekle</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;">
+                        Çıkış Yap
+                    </a>
+                    <form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" style="display:none;">
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2025 Tarık Akçalı.</p>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MegaQr.Web.Models.DTOs.StoreDto>
+
+@{
+    ViewData["Title"] = "Store Listesi";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <p>Kayıt bulunamadı.</p>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Store Id</th>
+                <th>Product</th>
+                <th>Section</th>
+                <th>Giriş Tarihi</th>
+                <th>Çıkış Tarihi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var store in Model)
+            {
+                <tr>
+                    <td>@store.StoreId</td>
+                    <td>@store.ProductName (@store.ProductId)</td>
+                    <td>@store.SectionName (@store.SectionId)</td>
+                    <td>@store.ToStoreRegister.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@(store.FromStoreExit?.ToString("dd.MM.yyyy HH:mm") ?? "-")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

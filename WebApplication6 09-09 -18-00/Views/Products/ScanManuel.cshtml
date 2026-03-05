@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Product Scan";
+}
+
+<h2>Ürün Sorgulama</h2>
+
+<form asp-controller="Products" asp-action="ScanProcess" method="post">
+    <div class="form-group">
+        <label for="productId">Ürün ID</label>
+        <input type="number" class="form-control" id="productId" name="productId" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Sorgula</button>
+</form>
